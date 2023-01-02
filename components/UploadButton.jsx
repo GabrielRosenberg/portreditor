@@ -11,7 +11,6 @@ export default function UploadButton({ imagesList, setImagesList }) {
       return new Promise((resolve) => {
         // Resolve the promise after reading file
         reader.onload = () => resolve(reader.result);
-        console.log(`Hello: ${reader.result}`);
         const blob = new Blob([file], { type: "image/jpg" });
 
         // Reade the file as a text
@@ -21,12 +20,9 @@ export default function UploadButton({ imagesList, setImagesList }) {
 
     let res = await Promise.all(files);
 
-    console.log(res);
-
     let additionalImages = [];
 
     res.map((url, idx) => {
-      console.log(`event.target.files: ${event.target.files[idx].name}`);
       additionalImages.push({
         src: url,
         canvasRef: createRef(),
@@ -41,8 +37,6 @@ export default function UploadButton({ imagesList, setImagesList }) {
   const resetValue = (event) => {
     event.target.value = null;
   };
-
-  console.log(imagesList);
 
   return (
     <Grid item>

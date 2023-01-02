@@ -47,8 +47,6 @@ export const Card = ({ image, removeImage, processImage, downloadImage }) => {
     );
   }
 
-  console.log(image.error);
-
   return (
     <Grid
       container

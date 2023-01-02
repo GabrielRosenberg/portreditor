@@ -18,27 +18,32 @@ import { Card } from "../components/Card";
 export default function Home() {
   const [imagesList, setImagesList] = useState([]);
   const maskImgRef = createRef();
-  const [mask, setMask] = useState(null);
+  const [mask, setMask] = useState();
+  const [cvIsReady, setCvIsReady] = useState(false);
+
+  cv.onRuntimeInitialized = () => {
+    setCvIsReady(true);
+  };
 
   useEffect(() => {
-    loadHaarFaceModels();
-    setMask(new cv.Mat());
-  }, []);
-
-  useEffect(() => {
-    if (mask !== null) loadMask();
-  }, [mask]);
+    if (cvIsReady) {
+      loadHaarFaceModels();
+      loadMask(mask);
+    }
+  }, [cvIsReady]);
 
   // Loads the static mask image by creating a img element,
   // the source image needs to be loaded from the DOM and should not be seen
   const loadMask = () => {
     const img = document.createElement("img");
+    const newMask = new cv.Mat();
     img.src = maskImage.src;
     img.height = maskImage.height;
     img.width = maskImage.width;
     const maskImageCv = cv.imread(maskImgRef.current);
-    cv.cvtColor(maskImageCv, mask, cv.COLOR_RGBA2GRAY, 0);
-    cv.cvtColor(mask, mask, cv.COLOR_GRAY2RGB, 0);
+    cv.cvtColor(maskImageCv, newMask, cv.COLOR_RGBA2GRAY, 0);
+    cv.cvtColor(newMask, newMask, cv.COLOR_GRAY2RGB, 0);
+    setMask(newMask);
   };
 
   const processImage = (target, image) => {

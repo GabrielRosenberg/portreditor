@@ -11,7 +11,7 @@ import { saveAs } from "file-saver";
 import {
   loadHaarFaceModels,
   detectHaarFace,
-} from "../utilities/haarFaceDetection";
+} from "../utils/haarFaceDetection";
 import maskImage from "../public/circularMask.png";
 import { Card } from "../components/Card";
 
